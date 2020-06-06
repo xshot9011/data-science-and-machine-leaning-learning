@@ -40,4 +40,9 @@ go to movie >> budget and finace >> เอาลงเป็นไฟล์ csv 
 
 เปลี่ยนข้อมูลใน column นั้นก็อย่าลืม เปลี่ยนชื่อ column ให้ง่ายต่อการเขียนโปรแกรมในการคำนวณ พวกช่องว่างอักขระพิเศษลบออกไปให้หมด เปลี่ยนชื่อ column สะ
 
+4. expore & visualise
+
+เป็นส่วนที่บอกว่าเรากำลังจัดการกับข้อมูลแบบไหนอยู่ ไปดูใน jupyter notebook ต่อได้เลย 
+วิธีเปิดก็ anaconda >> $jupyter notebook
+
 # coming soon
