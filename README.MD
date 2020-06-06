@@ -66,6 +66,29 @@ by "data science", we mean almost everything that has something to do with data
 
 ในทุกๆ model เราพยายามที่จะแก้ไขปัญหาที่มีอยู่บนโลก ก่อนอื่นเราต้องเข้าใจ how to clean, segment and visualize raw data หลังจากนั้นก็หา algorithm เพื่อนมาใช้ถอดความหมายจาก data
 
-## coming soon
+## processes to solve problem
+
+แล้วเราจะเอา data science มาปรับใช้กับปัญหาได้ยังไง
+1. formulate the question
+นัก data science จะตั้งคำถามอย่างรอบคอบ
+เพราะว่าคำถามที่ดีจะเป็นตัวกำหนดงานวิจัยและส่งผลต่อ data ที่เราออกไปเก็บ
+
+2. gatherind the data
+เก็บ data มาเพื่อนำมาใช้ในการตอบคำถามที่เราตั้งขึ้น
+
+3. clean data
+แต่ข้อมูลในโลกความเป็นจริงแม่งง๋องง๋อยมาก เราต้องทำการ clean มัน บางครั้งก็จะมีส่วนที่หายไปหรือส่วนที่ไม่สมบูรณ์ใน data นั้นๆ 
+เราต้องหา error หรือกำหนดรูปแบบของข้อมูลใหม่
+
+4. expore & visualise
+ทำความเข้าใจเกี่ยวกับ data ที่ได้มา
+
+5. training algorithm
+เพื่อหารูปแบบใน data ที่เราทำการเก็บมา
+
+ุ6. evaluate
+ทำการประเมินผลว่าผลลัพธ์ที่ได้มานั้น ตอบคำถามตามที่เราตั้งไหมและความแม่นยำของมันมีเท่าไหร
+
+## coming soon 
 
 # coming soon too
