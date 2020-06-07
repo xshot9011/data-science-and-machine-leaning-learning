@@ -45,4 +45,30 @@ go to movie >> budget and finace >> เอาลงเป็นไฟล์ csv 
 เป็นส่วนที่บอกว่าเรากำลังจัดการกับข้อมูลแบบไหนอยู่ ไปดูใน jupyter notebook ต่อได้เลย 
 วิธีเปิดก็ anaconda >> $jupyter notebook
 
+5. training algorithm
+
+ในที่นี้ linear regression จะหาความสัมพันธ์ระหว่าง งบประมาณ กับ รายได้ ของหนังด้วยสมการเส้นตรง
+
+y = mx + c
+
+สมการเส้นตรงในที่นี้ ถ้า x กับ y ไม่มีความสัมพันธ์กัน เช่น x เปลี่ยน 1, y เปลี่ยน 0 >> y = 0x + c 
+ถ้า x กับ y มีความสัมพันธ์กัน ถ้าเกิด x เพิ่มขึ้น 1, y เพิ่มขึ้น 2 >> y = 2x + c
+
+แต่มันมีความแตกต่างกันใน machine learning กับ pure mathematics
+ใน machine learning เราไม่รู้ความสัมพันธ์ที่แน่นอน ดังนั้น h>sub(theta)(x) = (theta1)x + (theta0) ; x = parameter
+
+ตอนแรกที่เรามอง scatter อะ มันมีจุดมากมายบนนั้น แล้วเราจะเลือกเส้นตรงผ่านตรงไหน 
+
+เปิดสถิติบท linear regression ได้เลย
+
+6. evaluate
+
+เราจะใช้ scikit-learn
+
+```python
+from sklearn.linear_model import LinearRegression
+```
+
+ไปอ่านต่อได้ใน jupeter notebook เลย
+
 # coming soon
