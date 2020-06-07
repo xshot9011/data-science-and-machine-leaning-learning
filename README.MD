@@ -89,6 +89,17 @@ by "data science", we mean almost everything that has something to do with data
 ุ6. evaluate
 ทำการประเมินผลว่าผลลัพธ์ที่ได้มานั้น ตอบคำถามตามที่เราตั้งไหมและความแม่นยำของมันมีเท่าไหร
 
-## coming soon 
+# nice introduction
 
-# coming soon too
+to solve a real life business and figuring out how to solve.
+This problem will test your engineering mindset.
+
+Common misconception these days is that to solve problems you need to use the most sophisticated model possible (a.i.).
+
+However in reality, AI is not the only thing that matters and AI doesn't solve all problems.
+
+Now, depending on your specific problem that you're faced with, AI system require amount of data and high cost to be built
+
+As you are engineer, you should think about how to solve your problem in an efficient way
+
+if you know many tools and use tools for the right jobs
