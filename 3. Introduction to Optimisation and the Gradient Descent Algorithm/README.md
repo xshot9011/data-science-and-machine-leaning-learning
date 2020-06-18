@@ -21,3 +21,10 @@ this is where we adjust our initail prediction
 ## cost function
 
 a very big partt of machine learning process is optimizing for solution that has the lowest costt
+
+# Learning rate 
+
+multipier in code >> jupter notebook >> how big was the step we take
+เมื่อเราไม่ระวังในการเขียน algorithm ก็อาจจะตกอยู่ในสถาณการณ์ที่่ก้าวมันใหญ่เกินทำให้ไมสามารถ find minimun value ได้้เลย หรืออาจจะทำให้เกิด overflow ได้ในตอนเปลีย่นแปลงได้เลยเพราะวา่ step ที่เยอะไป
+
+ดังนั้นเราต้้องหาทางเลือกค่่า learning rate ที่่เหมาะสม
