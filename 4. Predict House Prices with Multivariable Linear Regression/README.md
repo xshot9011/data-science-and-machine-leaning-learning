@@ -137,3 +137,31 @@ ex. index, true and false value is not con. data
 มันมีกราฟข้อมูลหลายแบบเลยที่มีค่า correlation สูงแต่ ! ไม่ใช่ linear นั้นก็ใช้ไม่ได้นะ
 
 เมื่อเราทำ data  visualisation เราก็จะเจอ outliner หรือคววามสัมพันธ์ที่อาจจะไม่ใช่ linear ใช้กราฟฟิคช่วยทำให้เราสามารถหาความสัมพันธ์ที่ซ่อนอยู่ภายใต้ของมูลนั้นๆได้
+
+## training algorithm
+
+we are going to combine explanatory feature to estimate price in boston 
+
+and the model of choice is called multi variable regression
+
+สมการที่มีตัวแปรเดียวของเราตอนแรกจะเป็น
+
+y = theta0 + theta1*x
+
+ตอนนี้เนื่องจากเป็น multi variabel สมการเราจะเป็น
+
+y = theta0 + theta1*x1 + theta2*x2 ... thetan*xn 
+
+where x1, .. xn is feature
+
+แต่ก่อนที่จะเริ่มการเรียนรู้ สงสัยไหมว่า. . .
+
+### wht this technique was called "regression"
+
+ย้อนไปหาชายชื่อ francis galton สิ่งประดิษฐ์ที่โลกจดจำเขาได้ก็คือ กัลตันบอร์ด ไอบอร์ดที่คล้ายๆ นาฬิกาทราย เหมือนเครื่อเล่นเกมส์ เพื่อแสดงถึง normal distribution
+
+galton เขาสนใจการเปลี่ยนแปลงของขนาดสิ่งต่างๆ ดูทั้งขนาดของเมล็ดพืช ขนาดของผู้คนเมื่อผ่านไปตามเจนเนอเรชั่น
+
+เช่น เมื่อมีพ่อที่สูงมากๆๆ เมื่อมีลูก ลูกคนนั้นจะมักเตี้ยกว่าพ่อ galton เรียกสิ่งนี้ว่า "regression to the mean" 
+
+เป็นที่มาของ regressions
