@@ -294,3 +294,35 @@ r-squre : 0.7918657661852815
 
 ลองเอา LSTAT ออกสิเจ้าจะเจอความพังพินาศ
 
+
+### plot regression residual
+
+residual is (r)
+
+formulas:> r = y - Y(predict)
+
+>> residual is difference between the target value and the predicted value
+
+#### why do residual matter
+
+regression ของเราอะจะขึ้นอยู่กับเส้น regression line เป็นการทำนาย ที่แน่ๆอะมันไม่มีทางถูกต้อง 100% 
+
+>> residual used to check if assumptions hold and model is valid
+
+>> residual should be random, no pattern
+
+ถ้าเรา plot ค่า แกน y = residual, x = ค่าที่ทำนายได้
+
+รูปแบบของมันต้องไร้รูปแบบ regression ก็เหมือนคนมีหลายๆอย่างที่สามารถทำให้มันป่วยได้ เราต้องเป็นเหมือนหมอ ทำการวิเคราะห์ทำการรักษามัน
+
+เราอาจจะต้องทำการย้อนกลับไปดู model เราว่ามันมีอะไรผิดพลาดไหม หรือเราตกหล่นอะไรไปหรือผ่าวเช่นการเลือก feature หรือเราต้อง transform data ใหม่อีกครั้ง
+
+>> the perfect data and model cause residual to be normally distributed
+
+แต่แบบมันก็ไม่จำเป็นต้อง normal เป้ะๆ อาจจะใกล้เคียงก็ได้ เลยมีคำกล่าวไว้ว่า
+
+" the statisticain knows that in nature there never was a normal distribution, there never was a straight line, yet with normal and linear assumption, known to be false, he can approximation, thoes found in the real world"- George Box
+
+"All models are wrong but some are useful"
+
+go to jupyter notebook to learn more
