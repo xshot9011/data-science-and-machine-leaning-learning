@@ -326,3 +326,23 @@ regression ของเราอะจะขึ้นอยู่กับเส
 "All models are wrong but some are useful"
 
 go to jupyter notebook to learn more
+
+### make prediction
+
+ถ้ากราฟเราเป็น normal distribution 
+
+mean - sd < mean < mean + sd
+
+จากวิชาสถิติเราจะรู้ว่ามีข้อมูลอยู่ในช่วงนี้ประมาณ 65%
+
+mean - 2sd < mean < mean + 2sd
+
+จากวิชาสถิติเราจะรู้ว่ามีข้อมูลอยู่ในช่วงนี้ประมาณ 95%
+
+mse = (1/n)*sum(y-y(predict))**2
+
+root(mse) = root((1/n)*sum(y-y(predict))**2) "root mean square error"
+
+ที่น่าสนใจก็คือ root mean squared error เนี่ยคือ 1 sd ของ residual distribution
+
+## coming soon
