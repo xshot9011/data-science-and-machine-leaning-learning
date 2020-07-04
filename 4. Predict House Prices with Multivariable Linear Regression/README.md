@@ -345,4 +345,10 @@ root(mse) = root((1/n)*sum(y-y(predict))**2) "root mean square error"
 
 ที่น่าสนใจก็คือ root mean squared error เนี่ยคือ 1 sd ของ residual distribution
 
-## coming soon
+## build a valuation tool
+
+เราจะทำ model ที่เราทำมาอะ ให้เหมือน module เพื่อให้คนอื่นสามารถนำไปใช้ได้
+
+จะได้ใช้การกำหนดค่าต่างๆที่ควรจะเป็น ค่าที่คนทั่วไปไม่รู้ เช่นค่า INDUS NOX แบบเนี่ยคนทั่วไปไม่ได้สนใจมันหรอก
+
+เราก็ต้องทำการเซ็ทค่าที่เหมาะสมให้แก่มัน
