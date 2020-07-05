@@ -43,7 +43,7 @@ Document
 
 >>> before going to the next step go and read Naive Bayes Classifier
 
-## comming soon
+## clean data and expore & visualise data
 
 # Naive Bayes Classifier
 
