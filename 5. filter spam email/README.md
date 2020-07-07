@@ -43,7 +43,15 @@ Document
 
 >>> before going to the next step go and read Naive Bayes Classifier
 
-## clean data and expore & visualise data
+## clean data
+
+jupyter notebook
+
+## explor & visualisation
+
+jupyter notebook
+
+## training algorithm
 
 # Naive Bayes Classifier
 
