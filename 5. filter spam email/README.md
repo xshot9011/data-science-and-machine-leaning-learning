@@ -51,6 +51,12 @@ jupyter notebook
 
 jupyter notebook
 
+### Word Cloud
+
+เป็นเหมือนขั้นตอนที่ทำให้เรามองเห็นภาพรวมของ data ได้มากขึ้น
+
+แบบคำที่เยอะที่สุดจะปรากฏใหญ่ที่สุดในรูป อารมณ์แบบภาพโฆษณา
+
 ## training algorithm
 
 # Naive Bayes Classifier
@@ -119,3 +125,21 @@ P(Normal|Viagra)*P(Normal|Free)*P(Normal|Cash)
 New York >> New & York
 
 นั้นเป็นเหตุผลว่าทำไม algorithm นี้ถึงถูกเรียกว่า Naive
+
+# Natural Language Processing
+
+เป็น sub field ของ ai อีกที
+
+เราจะใช้มันเกี่ยวกับอะไรในงานนี้ :> เราจะใช้มันทำการเตรียมคำ เพื่อป้อนให้กับ training algorithm ของเรา
+
+คือการ convert email body >> from ที่ algorithm เราสามารถเข้าใจได้ 
+
+เพราะตามที่เคยบอกไปว่าเราไม่สามารถยัดข้อความลงไปทั้งก้อนให้กับ algorithm นี้ได้
+
+## pre-process
+
+1) converting to lowwer case
+2) Tokenising แยกคำออกเป็นคำๆ
+3) Removing stop words พวกอักขระพิเศษที่ไม่ช่วยในการสื่อสาร
+4) Stripping oyt HTML Tags
+5) Word Stemming เอาคำกลับมาเป็นต้นคำ go <<goes, going, gone>>
