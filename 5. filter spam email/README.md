@@ -173,6 +173,14 @@ recall = 0
 
 ถ้าอันใดเพิ่มอันใดต้องลดก็มีผลต่อ recall กับ precision ตามนั้น
 
+### F score
+
+recall กับ precision score สามารถเอามาผสมกันได้ เรียกส่า F-score
+
+F-score = 2 * [(precision*recall)/(precision+recall)]
+
+f-score เนี่ยเป็น harmonic average ของ precision กับ recall
+
 # Naive Bayes Classifier
 
 ข้อดีของโมเดลนี้คือเรียบง่ายและไว มักใช้ในการทำนายพยากรณ์อากาศ หรือ ทำการ filter spam
