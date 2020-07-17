@@ -103,3 +103,9 @@ Now, depending on your specific problem that you're faced with, AI system requir
 As you are engineer, you should think about how to solve your problem in an efficient way
 
 if you know many tools and use tools for the right jobs
+
+# model Zoo
+
+คือสถานที่ที่มีคนทำ model ไว้ให้เราแล้วเราแค่เอามันไปใช้งานต่อ เราไม่จำเป็นต้องทำการ train มันเอง
+
+[https://www.modelzoo.co/](model zoo)
