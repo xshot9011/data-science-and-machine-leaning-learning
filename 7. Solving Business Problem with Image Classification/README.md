@@ -86,6 +86,8 @@ tensorflow จะเริ่มทำงานกับ data คำนวณแ
 
 ### 1.) define model
 
+specify the number of layers, neuronsm, type of activation functions in side those neurons
+
 เราจะตั้งค่าสถาปัตยกรรมของ model นี้
 ที่เราจะกำหนดนั้นก็คือ layer ต่างๆ 
 
@@ -114,7 +116,7 @@ Dense(units=[number of output that we want],  # the number of neuron in that lay
 ตอนนี้เรามี node ใน first hidden layer ทั้งหมด 6 อัน
 
 ```python
-model_1 = Sequential([
+model = Sequential([
     Dense(units=128, input_dim=TOTAL_INPUTS, activation='relu'),  # first hidden layer
     Dense(units=64, activation='relu'),  # second hidden layer
     Dense(units=16, activation='relu'),  # third hidden layer
@@ -137,3 +139,70 @@ model_1 = Sequential([
 ที่เราใช้ soft max ก็เพราะว่า มันจะเปลี่ยน output เป็น probability ทำให้ model เราสามารถบอกได้ว่า ภาพนี้มีโอกาศที่จะมีแมวอยู่ 87 เปอร์เซ็นอะไรประมาณนี้ 
 
 soft max มี output ออกระหว่าง 0-1 และทั้งหมดจะรวมกันได้เพียง 1 เท่านั้น นี่คือสาเหตุที่ทำไมเรามักเห็น soft max เป็น activation function ของ output layer
+
+### 2.) Compile Model
+
+compile the model หมายความว่า การที่เราบอก tensorflow ว่าชนิดของการคำนวณหลังจากนี้คืออะไร
+
+ทำไมเราต้องทำแบบนี้ เพราะว่า เบื้องหลังของ tensorflow คือการสร้าง graph
+
+the graph is important because tensorflow needs to know how to organize its calculations
+
+calculations >> การคำนวณ loss, how far away from true value, update the weight as the model beign train, track accuracy of the model during the training process
+
+เราต้องทำการระบุ loss หรือ cost function ที่จะใช้
+
+เช่นใน regression >> mse คือ cost dunction
+
+และใน loss หรือ cost function ที่เหมาะสำหรับงานแบบที่เราจำก็คือ Categorical Cross Entropy
+
+[graph](https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html)
+
+CE = -sum(y_real_i+log(y_predicted_i))  # i is number of category
+
+การทำงานของ cost function นี้ ขอยกตัวอย่างเช่น
+สมุติเรามีแมวเพื่อมาเช็คว่ารูปนี้มีแมวอยู่หรือไม่ >> 2 category มี (1) กับ ไม่มี (0)
+
+แกน y คือ cost (infinity - 0)
+แกน x คือ predicted probability (0 - 1)
+
+CE = -(y_1*log(y_predicted_1) + y_0*log(y_predicted_0))
+   = -(1*log(1) + [0*log(0)])  # ทำนายว่ามีแมว
+   = -(1*0 + 0*1)
+   = 0
+
+มันมีหลายวิธีในการปรับค่า cost
+วิธีในการปรับเรียงว่า [Optimizer](https://keras.io/api/optimizers/) >> algorithm that calculate the loss and adjust the weight
+
+มันมีเยอะแยะเลย แล้วเราจะเลือกอันไหนดีหล่ะ เพราะแต่ละอันก็มีความแตกต่างกันเล็กน้อย
+
+ถ้าอันที่นิยมสุดก็คือ Adam >> ประสิทธิภาพดี, ใช้เมมอรี่น้อย
+
+เมื่อเราจะทำการ compile เราต้องกำหนดให้มันสามอย่าง optimizer, loss function, metric to calculate
+
+```python
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+```
+
+#### parameter
+
+เราสามารถดู parameter ทั้งหมดได้โดย model.summary()
+แล้วเราสามารถคำนวณไม่ได้ด้วยมือไหม ?
+
+จำตอนแรกได้ป่ะ ที่เราคำนวณมันด้วยจำนวนของ neuron ในช่วงนั้นๆ ได้ 90 connection
+
+แต่ 90 connection ไม่ได้หมายความว่ามันจะมี 90 parameter เพราะว่าในแต่ละ neuron มี bias ของมันอยู่
+
+ถ้าพูกถึงแต่ละ neuron ก็หมายถึง activation function ด้วยที่บอกว่า neuron นั้นจะยิงสัญญาณแรงเท่าไหร
+
+และเมื่อเราพูดถึง เกี่ยวกับ learning และ adjust weights สิ่งที่มันเกิดขึ้นจริงๆก็คือการเปลี่ยน activation function ทำให้กว้างขึ้นหรือแคบลงก็ได้หรือ shift กราฟไปทางซ้ายหรือทางขวาหรือทางไหนก็ได้ (Bias)
+
+การเปลี่ยนรุปร่างของ activation function นั้นเอง
+
+แน่นอนเมื่อมีการเปลี่ยนแปลงเกี่ยวกับ activation function นั้นก็หมายความว่า ความแรงของสัญญาณที่ส่งออกก็จะเปลี่ยนแปลงตามไปด้วย
+
+เช่นใน jupyter notebook
+
+parameter = [(32*32*3) * 128 + {128}] + [128*64 + {64}] + [64*16 + {16}] + [16*10 + {10}]
+
+### 3.) Training Model
