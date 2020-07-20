@@ -44,11 +44,13 @@ dataset เนี่ยอะเราไม่ได้ไปหามาจา
 จากเดิมเรามี dataset ที่ถูกแบ่งเป็น 2 ชุดนั้นก็คือ train, test
 
 |-----------------------data----------------------|
+
 |-------------train-------------||------test------|
 
 ตอนนี้เราจะทำการแบ่งส่วนที่เราเรียกว่า validation เพิ่มอีกส่วนจาก train dataset
 
 |-----------------------data----------------------|
+
 |------train-------||-validation-|------test------|
 
 validation ใช้สำหรับทดสอบหา Metrics หลังจากเทรนเสร็จว่าโมเดลทำงานได้ดีแค่ไหน และหลังจากจูนแต่ละครั้งโมเดลไหนทำงานได้ดีกว่ากัน
@@ -166,9 +168,9 @@ CE = -sum(y_real_i+log(y_predicted_i))  # i is number of category
 แกน y คือ cost (infinity - 0)
 แกน x คือ predicted probability (0 - 1)
 
-CE = -(y_1*log(y_predicted_1) + y_0*log(y_predicted_0))
-   = -(1*log(1) + [0*log(0)])  # ทำนายว่ามีแมว
-   = -(1*0 + 0*1)
+CE = -(y_1 * log(y_predicted_1) + y_0 * log(y_predicted_0))
+   = -(1 * log(1) + [0 * log(0)])  # ทำนายว่ามีแมว
+   = -(1 * 0 + 0 * 1)
    = 0
 
 มันมีหลายวิธีในการปรับค่า cost
@@ -203,7 +205,7 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 
 เช่นใน jupyter notebook
 
-parameter = [(32*32*3) * 128 + {128}] + [128*64 + {64}] + [64*16 + {16}] + [16*10 + {10}]
+parameter = [(32 * 32 * 3) * 128 + {128}] + [128 * 64 + {64}] + [64 * 16 + {16}] + [16 * 10 + {10}]
 
 ### 3.) Training Model
 
