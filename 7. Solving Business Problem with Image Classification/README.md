@@ -206,3 +206,89 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 parameter = [(32*32*3) * 128 + {128}] + [128*64 + {64}] + [64*16 + {16}] + [16*10 + {10}]
 
 ### 3.) Training Model
+
+แล้วจะทำยังไงหล่ะ ก็ต้องเข้าไปดู doc เขา 
+
+[keras api doc](https://keras.io/api/models/model/)
+
+ดูที่ fit method
+
+แล้วหลังจากเราทำการ fit ไปแล้วอะ เราจะรู้ได้ไงว่า model เราดีแค่ไหน ก็ต้องใช้ tensorboard 
+
+ถ้าใน doc fit method จะมีชื่อ parameter หนึ่งที่เรียกว่า callbacks=None
+
+```python
+from keras.callbacks import TensorBoard  # ตัวเดียวกันแน่นออนนนน
+
+model_1.fit(x_train_xs, y_train_xs, callbacks=[get_tensorboard('model_1')])
+```
+
+เมื่อเรา train model เสร็จจะดูผลลัพธ์ที่ tensorboard ทำยังไงหล่ะ ก็ ใช้ anaconda prom ไม่ชัวว่า cmd ได้ไหม
+
+```bash
+tensorboard --logdir=[path]
+# http://localhost:6006/
+```
+
+ถ้าเราทำแค่นี่จะเห็นได้ว่า accuracy ของ model นั้นต่ำมากใน tensorboard ก็ต้องย้อนกลับไปดูที่ doc แล้วว่าเราพลาดอะไรไปหรือป่าว
+
+จะเห็นได้ว่ามี parameter ที่ชื่อ batch_size, epoch
+
+#### Epoch
+
+epoch is when the entire dataset has been passed through the neural network a single time 
+
+จากการสังเกตุ default ของ epoch นั้นมีค่า 1 มันก็เมคเซนต์ที่เห็น data point จุดเดียวบน tensorboard
+
+การใส่ dataset ลงไปทีเดียวทั้งหมดเหมือนจะเป็นเรื่องที่ดี แต่ก็ไม่ใช่นะ
+
+จำตอนที่เราเรียน gradient descent algorithm ได้ป่ะ ว่า optimization process นั้นคือการวนซ้ำเรื่อยๆ
+
+นั้นก็คือ weight จะถูกอัพเดทเมื่อเรารัน fit method หนึ่งครั้ง
+
+แสดงว่าที่เราทำเมื่อกี้ก็คือการโยน dataset ทั้งหมดเข้าไปทำงานเพียงรอบเดียวเท่านั้น
+
+แล้วลองคิดดูถ้า dataset นั้นใหญ่มากๆๆๆๆๆๆๆๆ จะเกิดไรขึ้นถ้าเราโยนเข้าไปแบบตูมตามมม
+
+ถ้าคอมแรกสามารถจัดการได้ก็ทำไป โยนเข้าไปรอบเดียวเพียวๆ ถ้าคอมไม่แรงก็ต้องแบ่ง dataset ออกเป็น set ย่อยๆที่เราเรียกว่า batch
+
+#### batch_size
+
+iteratino = number of training smaple / batch size
+
+ก็ตามปกติ  batch size คือบอกว่าทำรอบละกี่ point
+
+#### Let's do it again
+
+```python
+%%time
+epoch_number = 20
+batch_size = 1000
+model_1.fit(x_train_xs, y_train_xs, batch_size=batch_size, epochs=epoch_number,
+            callbacks=[get_tensorboard('model_1')])
+```
+
+ถ้าเกิด model ของเราไม่เกิดการเรียนรู้เลยแสดงว่าบางทีมันอาจจะมาจากจุดเริ่มต้นที่ผิดก็ได้ ก็ recompile ตอนเราสร้าง model ใหม่อีกรอบ แล้วค่อย train มัน
+
+จาก tensboard จะรู้ได้เลยว่าเกิดการเรียนรู้ขึ้นแล้ววว ลองเพิ่มขนาด epoch ก็ได้ แล้วสั่งเกตุการเปลี่ยนแปลง
+
+รองรันมันดูหลายรอบ จะเห็นได้ว่ามันไม่เหมือนกันเลยสักรอบ ทำไมหล่ะ ทั้งๆที่มาจาก dataset อันเดียวกันแท้ๆ
+
+นั้นก็เพราะว่า optimizer ของเรามีการ random นิ้ดหน่อย อาจจะเกิดโชคดี หรือ โชคร้ายก็เป็นได้
+
+```python
+%%time
+# with epoch & batch_size and validation
+epoch_number = 1200
+batch_size = 1000
+model_1.fit(x_train_xs, y_train_xs, batch_size=batch_size, epochs=epoch_number,
+            callbacks=[get_tensorboard('model_1')],  # which got higher accuracy
+            verbose=0,  # not to display the output
+            validation_data=(x_validation, y_yalidation))
+```
+
+ถ้าเราเพิ่ม calidation_data เข้าไป เราจะสั่งเกตุว่า tensorboard ของเรามี ช่องเพิ่มขึ้นมาสองช่องคือ cal_acc, val_loss
+
+คุณไม่ต้องตกใจที่ validation accuracy มันต่ำซึ่งนั้นเป็นเรื่องปกติอยู่แล้ว
+
+แต่ที่น่าตกใจนั้นก็คือค่า loss ของมัน คือตอนแรกมาก แลเว น้อย น้อย น้อย น้อย แล้วเริ่มมากขึ้นในช่วงท้าย นี่แหละที่เกิดปัญหา over fitting
