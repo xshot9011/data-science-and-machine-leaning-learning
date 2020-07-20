@@ -81,11 +81,6 @@ tensorflow จะเริ่มทำงานกับ data คำนวณแ
 
 เราใช้ model ของ neural network ที่ชื่อ mulilayer percoptron
 
-มี first hidden layer 6 node
- second hidden layer 5 node
- output layer 4 node
-
-
 ### 1.) define model
 
 specify the number of layers, neuronsm, type of activation functions in side those neurons
@@ -93,7 +88,7 @@ specify the number of layers, neuronsm, type of activation functions in side tho
 เราจะตั้งค่าสถาปัตยกรรมของ model นี้
 ที่เราจะกำหนดนั้นก็คือ layer ต่างๆ 
 
-แต่ที่เราจำทการกำหนดอันแรกไม่ใช่ input layer แต่เป็น first hidden layer ต่างหาก
+แต่ที่เราจะทำการกำหนดอันแรกไม่ใช่ input layer แต่เป็น first hidden layer ต่างหาก
 
 keras ต้องการเรามาช่วยในการปรับแต่ง input layer เพียงนิ้ดเดียวเท่านั้น
 
