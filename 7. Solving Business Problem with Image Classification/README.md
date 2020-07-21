@@ -116,7 +116,7 @@ thrid hidden layer 16 อัน
 output layer 10 อัน
 
 ```python
-model = Sequential([
+model_1 = Sequential([
     Dense(units=128, input_dim=TOTAL_INPUTS, activation='relu'),  # first hidden layer
     Dense(units=64, activation='relu'),  # second hidden layer
     Dense(units=16, activation='relu'),  # third hidden layer
@@ -226,7 +226,7 @@ model_1.fit(x_train_xs, y_train_xs, callbacks=[get_tensorboard('model_1')])
 เมื่อเรา train model เสร็จจะดูผลลัพธ์ที่ tensorboard ทำยังไงหล่ะ ก็ ใช้ anaconda prom ไม่ชัวว่า cmd ได้ไหม
 
 ```bash
-tensorboard --logdir=[path]
+tensorboard --logdir [path]
 # http://localhost:6006/
 ```
 
@@ -291,4 +291,166 @@ model_1.fit(x_train_xs, y_train_xs, batch_size=batch_size, epochs=epoch_number,
 
 คุณไม่ต้องตกใจที่ validation accuracy มันต่ำซึ่งนั้นเป็นเรื่องปกติอยู่แล้ว
 
-แต่ที่น่าตกใจนั้นก็คือค่า loss ของมัน คือตอนแรกมาก แลเว น้อย น้อย น้อย น้อย แล้วเริ่มมากขึ้นในช่วงท้าย นี่แหละที่เกิดปัญหา over fitting
+แต่ที่น่าตกใจนั้นก็คือค่า loss ของมัน คือตอนแรกมาก แลเว น้อย น้อย น้อย น้อย แล้วเริ่มมากขึ้นในช่วงท้าย นี่แหละที่เกิดปัญหา overfitting
+
+#### Overfitting & Regularisation
+
+##### Overfitting
+
+ค่า validation value ถ้าดูจากกราฟ มันค่อยๆลดลงแล้วก็เพิ่มตอนท้าย 
+
+เกิดขึ้นจาก overfitting = over(เกินไป) + fitting(พอดี)
+
+เกิดขึ้นเมื่อ model เรียนรู้ data ได้ดีเกินไป ก็คือ model เรียนรู้ลักษณนิสัยทั้งหมดของ dataset นั้นได้ แบบทั้งลักษณะเล็กลักษณะใหญ๋ ถ้าเป็นคนก็คือสัมผัสมาทั้งภายนอกและภายใน
+
+ทำให้ model เนี่ยมันเหมาะสมมากๆๆๆ สำหรับ training dataset นี้
+
+model ของเราไม่ได้เรียนรู้แค่ความสัมพันธ์ที่อยู่ในข้อมูล แต่ยังเรียนรู้ noise ต่างๆที่อยู่ในข้อมูลนั้นๆด้วย
+
+ดังนั้น model becomes unable to generalize well.
+
+นั้นก็คือ model นี้ไม่สามารถที่จำใช้ในการทำนายข้อมูลนอก training dataset ได้
+
+ตอนเราทำ regression คิดดูถ้าเส้นสมการที่เราสร้างอะลากเชื่อมทุกชุดได้ ตัวหนอนแน่นอน แลัวแน่นอนทำนายได้แม่นยำมาก แต่ก็ได้แค่ใน dataset นั้นที่เอามาใช้ train
+
+ปัญหา overfitting เนี่ยมีอยู่ทุกที่ทั่ว machine learning technique ไม่ใช่แค่ neural netowrk 
+
+แต่ใน neural networks มักจะมีปัญหานี้อยู่ด้วยเท่านั้นเอง
+
+เพราะอะไร ?
+
+ืneural network นั้นมีแนวโน้วที่จะมี parameter จำนวนมาก แค่ model เราตอนนี้มี 400000 กว่าแล้ว
+
+จริงแล้วๆยิ่ง parameter เยอะเท่าไหร model ของเราก็จะยิ่งมีแนวโน้มที่จะมี (prone) overfitting มากเท่านั้น
+
+เมื่อเรามี over แน่นอนเราก็ต้องมี under
+
+Underfitting
+
+ก็ตรงข้ามกันอันนั้นเหมาะสมเกินไป อันนี้ก็คือไม่เหมาะสม หรือนั้นก็คือการที่เราเทรนมันด้วย epochs=1 นั้นเอง
+
+[graph](https://en.wikipedia.org/wiki/Overfitting)
+
+ลองเข้าไปดูเส้นสีเขียวคือ overfitting การพยามแบ่งแยกข้อมูลมากเกินไป ทำให้แบ่งโดน noise ไปด้วย
+
+###### Detect Over Fitting
+
+เราก็สามารถดูได้จาก validation loss ใช่มะเมื่อมันเริ่มเพิ่มขึ้นแบบแปลกๆ นั้นก็คือมันเริ่มไม่เหมาะแก่การทำนายแล้ว
+
+อาการที่เหมาะแก่การสังเกตุ คือมันลดลงเรื่อยๆ หรืออยู่เท่าเดิม หรือเพิ่มขึ้นเรื่อยๆ
+
+แล้วเราจะแก้ไขปัญหา overfitting นี้ได้อย่างไร
+
+วิธีที่ใช้ในการแก้ปัญหานี้ก็คือ Regularisation
+
+##### Regularisation
+
+มันคือเทคนิคที่ช่วยในการแก้ปัญหาด้านบน
+
+###### Early Stop
+
+ถ้าเกิดเราทำการ train model เราด้วย epoch ที่มากเกินไป เราก็ลดจำนวน epoch สิ ในเมื่อ validation accuaracy นั้นไม่เพิ่มขึ้นเท่าไหร และ validation loss นั้นก็ไม่ลดลงแล้ว
+
+```python
+
+```
+
+###### Dropout
+
+มีงานวิจัยพบว่า 
+
+If you randomly ignore some of the nerons during the training, then you can reduce overfitting.
+
+In other words during each training step some random neuron either in input layer of in the hidddn layer is not considered.
+
+If we apply drop out technique to the input layer, we can specify a chance for every single one of these neurons to not be considered during the training.
+
+If there's a 20 percent chance that each of these neurons can drop out, during the first training maybe the first neuron and all of its connections will be ignored.
+
+If this neuron and all of its connections drop out then the network shrinks, it becomes a less complex network because there are fewer connections.
+
+during the next training step a different neuron might not drop out with X% probability, the neuron that's drop out the first coming step will come back.
+
+why this work ????
+
+If some neuron is dropped out, it mean that all the connected downstream neurons in the first hidden layer don't want to rely to heavily on any single input.
+
+If a random nueron drop out during the training step every time all of the connected nuerons will try to hedge(ป้องกันความเสี่ยง) themselves in order not to weigh any particular input too heavily.
+
+This will help prevent Overfitting.
+
+[drop out doc](https://keras.io/api/layers/regularization_layers/dropout/)
+
+```python
+model_2 = Sequential([
+    Dropout(0.2, seed=42, input_shape=(TOTAL_INPUTS,)),  # dropout on input layer
+    Dense(units=128, activation='relu', name='m2_fh'),  # first hidden layer
+    Dense(units=64, activation='relu', name='m2_sh'),  # second hidden layer
+    Dense(units=16, activation='relu', name='m2_th'),  # third hidden layer
+    Dense(units=10, activation='softmax', name='m2_o'),  # output layer
+])
+
+model_2.compile(optimizer='adam', 
+                loss='sparse_categorical_crossentropy', 
+                metrics=['accuracy'])
+```
+
+รอเราทำการ train ปุ๊ปเราจะสังเกตุได้ว่า อาการมันดีขึ้นนะจากกราฟที่แสดงออกมาเมื่อเทียบกับอันเดิม
+
+ถ้าเราลองปรับปรุงมันมากกว่าเดิมโดยการผสมผสานเทคนิคหล่ะ
+
+เอา dropout ไปแปะใน input, first hidden layer
+
+```python
+model_3 = Sequential([
+    Dropout(0.2, seed=42, input_shape=(TOTAL_INPUTS,)),  # dropout on input layer
+    Dense(units=128, activation='relu', name='m3_fh'),  # first hidden layer
+    Dropout(0.25, seed=42),  # dropout on first hidden layer
+    Dense(units=64, activation='relu', name='m3_sh'),  # second hidden layer
+    Dense(units=16, activation='relu', name='m3_th'),  # third hidden layer
+    Dense(units=10, activation='softmax', name='m3_o'),  # output layer
+])
+
+model_3.compile(optimizer='adam', 
+                loss='sparse_categorical_crossentropy', 
+                metrics=['accuracy'])
+```
+
+###### Look More Closly
+
+เปิด tensorboard ไปที่ๆผมเก็บ log ไว้ให้เลย มี xs คือ train ด้วย dataset ที่มีขนาดเล็ก
+
+ตอนนี้เราก็จะมี model ทั้งหมด 3 แบบด้วยกัน
+
+1. แบบที่ไม่มี dropout เลย
+2. แบบที่มี dropout ที่ input layer
+3. แบบที่มี dropout ที่ input, first hidden layer
+
+จากการสังเกตุทั้ง 3 model กับ ขนาดของ dataset ที่มีขนาดเล็กและขนาดใหญ๋
+
+ถ้าดูที่ค่า accuracy ของ dataset ที่มีขนาดใหญ่นั้นก็มีอัตราการเปลี่ยนแปลงไปในทางที่ดีมากกว่า dataset ที่มีขนาดเล็ก ถึงแม้ว่าจะมี dataset ขนาดเล็กที่แซงขึ้นมาได้อันเดียวแต่นั้นก็อาจจะเป็นเพราะการสุ่มในการปรับน้ำหนัก
+
+ส่วนค่า loss ของทั้งสองแบบลดลงแบบปกติ ไม่ค่อยมีอะไรน่าสนใจในกรณีนี้
+
+ในช่วงแรง validation accuracy ของ dataset ขนาดใหญ่นั้นมีความแม่นยำที่เพิ่มขึ้นอย่างรวดเร็วมากในช่วงแรก
+กลับกันใน dataset ขนากเล็ดนั้นมีความแม่นยำเพิ่มขึ้นแบบช้ามากๆในช่วงแรก 
+
+แต่ค่า validation accuracy ของ model ทั้งสาม ที่มี dataset ขนาดเท่ากันนั้นค่าก็ไม่เกาะกลุ่มกันมากไม่ต่างกันเท่าไหร
+
+ลองดูค่า max ของ validation accuracy ดูจะสังเกตุได้ว่า dataset ขนาดใหญ่นั้นมีความแม่นยำสูงกว่า dataset ขนาดเล็กมาก
+
+ถึงแม้ว่าช่วงท้ายของ epoch นั้นจะมีอัตราการเปลี่ยนแปลงที่ต่ำ แต่การไปถึงค่า max ที่ควรเป็นไปได้นั้น dataset ขนาดใหญ่ใช้จำนวนครั้งน้อยกว่ามาก
+
+ถ้าในเรื่องของเวลาการเทรน โมเดล 2, 3 นานกว่า 1 อยู่แล้วเนื่องจากมีการใช้ dropout มาช่วย
+
+สรุป:::::::
+
+ปริมาณ data ทำให้เกิดความแตกต่างที่เยอะมาก ทำให้ลด overfitting, ทำให้เพิ่ม accuracy
+
+early stop ก็ดีเมื่อใช้หยุดไม่ต้องเสียเวลานานเกินควร
+
+เราใช้ dropout ทำให้โอกาสเกิด overfitting นั้นน้อยลง แต่เิ่มเวลาในการเทรนนิ้ดหน่อย
+
+การเพิ่มปริมาณ data นั้นมีผลมากกว่าการทำ dropout อีก
+
+แต่ model ตอนแรกที่เราทำมันยังมี accuracy ต่ำอยู่นะเดี่ยวค่อยไปปรับกันทีหลัง
