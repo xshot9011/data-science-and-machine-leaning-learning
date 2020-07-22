@@ -8,7 +8,9 @@
 
 เราจะทำการ classification แค่ 10 รุปนั้นก็คือ เรือ ม้า กบ หมา กวาง แมว นก รถบรรทุก รถ เครื่องบิน
 
-แล้ว model ที่เราจะใช้ก็คือ artificial neural network ที่เรียกว่า multi layer perceptron
+แล้ว model ที่เราจะใช้ก็คือ artificial neural network ที่เรียกว่า multilayer perceptron
+
+เนื้อหาก่อนหน้านี้เขาใช้ model Inception ResNet ซึ่งมีความแม่นยำมากกว่า model นี้มาก 55555
 
 ## Installing Tensorflow and Keras for Jupyter Notebook On Local Machine
 
@@ -457,4 +459,26 @@ early stop ก็ดีเมื่อใช้หยุดไม่ต้อง
 
 ## Evaluate
 
-ep12
+จำ recall กับ precision กับ f-score ได้ไหม
+
+และก็ที่มีเพิ่มขึ้นมาก็มี accuracy, loss
+
+และที่เพิ่มขึ้นมาก็คือ Confusion Matrix
+
+ไอเดียของ confusion matrix นั้นเรียบง่าย จริงๆมันคือตาราง crosstabs ขนาด n×n ทั่วไป โดยแกนนอนคือ actual result ส่วนแกนตั้งคือ prediction result
+
+ถ้าค่า actual == predicted นั้นก็คือค่าบนเส้นทะแยงมุมนั้นเอง 
+
+แสดงว่าถ้าอยากรู้ accuracy วัดจากเส้นทแยงมุมได้
+
+หรือนั้นก็คือข้อมูลที่อยู่ในเส้นทแยงมุมคือ true positive
+
+ถ้ามองตาม column ต่างๆ เช่น เครื่องบินหล่ะ ไม่เอาเส้นทแยงมุมนะ ทำนายว่ามันคือเครื่องบิน แต่จริงๆไม่ใช่ นั้นก็คือ false positive
+sum column > flase positive,
+
+ถ้ามองตาม row ต่างๆ เช่น เครื่องบินเหมือนเดิมไม่มองเส้นทะแยงมุมเหมือนเดิม ก็คือ จริงๆแล้วมันเป็นเครื่องบินแต่ทำนายผิด นั้นก็คือ false negative
+sum row > false negative
+
+ลองมองใน matrix ดูก็ได้ว่า model เราสับสนในเรื่องไหนมากที่สุด
+
+jupyter notebook ได้คำนวณเรื่องพวกนี้หมดแล้ว
