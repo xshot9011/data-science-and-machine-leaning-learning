@@ -102,7 +102,7 @@ keras ต้องการเรามาช่วยในการปรั�
 
 ```python
 from keras.models import Sequential
-from keras.layers import Dense, Activation
+from keras.layers import Dense, Activation, Dropout
 
 
 Dense(units=[number of output that we want],  # the number of neuron in that layer
@@ -454,3 +454,7 @@ early stop ก็ดีเมื่อใช้หยุดไม่ต้อง
 การเพิ่มปริมาณ data นั้นมีผลมากกว่าการทำ dropout อีก
 
 แต่ model ตอนแรกที่เราทำมันยังมี accuracy ต่ำอยู่นะเดี่ยวค่อยไปปรับกันทีหลัง
+
+## Evaluate
+
+ep12
