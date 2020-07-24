@@ -75,3 +75,11 @@ w51 w52 w53 w54 w55     out5     in5
 tensorflow เนี่ยต้องการให้เราสร้าง placholder เอาไว้ให้ tensorflow รู้ set up, how data should flow ด้วยกราฟของมัน
 
 [doc](https://www.tensorflow.org/api_docs/python/tf/compat/v1/placeholder)
+
+# Tensorboard Summaries and the Filewriter
+
+วิธีการที่ tensorboard จะเก็บผลลัพท์การคำนวณทั้งหมด เรียกว่า Summaries
+
+: The way that tensorboard gets hold of theses calculations is through something called a summary
+
+Summary เนี่ยทำให้ tensorboard สามารถสร้าง chart สวยๆได้เหมือนกับที่เราได้เห็นใน keras callbacks และการจะสร้างไฟล์แบบนั้นต้องอาศัย FileWriter
