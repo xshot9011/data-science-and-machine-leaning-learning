@@ -1,0 +1,3 @@
+data/
+load_data/
+tensorboard_mnist_digit_logs/

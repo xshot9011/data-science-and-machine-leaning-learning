@@ -311,3 +311,9 @@ model_name = f'{hidden_1_number}-{hidden_2_number} LR;{learning_rate} E;{epoch_n
 ```
 
 ก็การเพิ่ม dropout เข้าไปก็จะส่งผลคล้ายๆกับที่เราทำใน keras เช่นการเทรนช้าลงบ้าง ช่วยลด overfitting ได้
+
+# Testing and Evaluating Model
+
+ อยู่ใน notebook
+  
+ส่วนเรื่องการ deploy ซึ่งเป็นขั้นตอนสุดท้ายจะไปอยุ่ในหัวข้อถัดไปแทน
