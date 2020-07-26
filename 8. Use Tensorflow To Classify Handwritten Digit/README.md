@@ -207,3 +207,107 @@ with tf.name_scope('output_layer'):
 หลักจากเราทำ nmae_scope ให้ทุกๆส่วนของ code แล้วก็ลองเข้าไปดูที่ graph อีกรอบจะเห็นการจัดหมวดหมู่ที่ชัดเจนมากขึ้นกว่าเดิม
 
 ลองอ่านกราฟดูอีกรอบจะเข้าใจการทำงานของ tensorflow มากขึ้น
+
+# Hyperparameters & Dropout and Histogram summary
+
+เนื้อหานี้จะอยู่ในส่วน jupyter notebook ที่ maintain แล้ว
+
+ลองอ่านเทียบไปกับการเปิดกราฟ tensorboard
+
+หัวข้อทั้งหมดด้านบนเนี่ยจะทำให้เราสามารถ train model ด้วย epoch ที่เหลากหลายได้ เพื่อดูการเปลี่ยนแปลง accuracy
+
+```python
+def setup_layer(input_before, weight_dim, bias_dim, name):  # with histogram summary
+    with tf.name_scope(name):
+        initial_w = tf.truncated_normal(shape=weight_dim, stddev=0.1, seed=42)
+        w = tf.Variable(initial_value=initial_w, name='w')
+        
+        initial_bias = tf.constant(value=0.0, shape=bias_dim)
+        b = tf.Variable(initial_value=initial_bias, name='b')
+
+        layer_input = tf.matmul(input_before, w) + b
+        if name == 'out':
+            layer_output = tf.nn.softmax(layer_input)
+        else:
+            layer_output = tf.nn.relu(layer_input)
+        
+        ########################################################
+        tf.summary.histogram('weights', w)
+        tf.summary.histogram('biases', b)
+        ########################################################
+
+        return layer_output
+```
+
+แล้วลองทำการเทรนโมเดลเราใหม่ดูจะเห็นได้ว่ามี column เพิ่มขึ้นมาด้วยยว้าวๆ 
+
+สองบรรทัดที่เราทำการ add เข้าไปตอนสร้าง layer อะ
+
+## histogram/ layer1/ biases
+
+ลองไปดูกราฟนี้ตาม path ด้านบนใน tensorboard สวยมากเลยนะ แต่มันหมายถึงอะไร ??
+
+กราฟนี้แสดงถึง distribution of biases for the first hidden layer over time
+
+ตอนเรากำหนดอะ bias มีค่าเป็น 0 ใช่ป่ะแสดงว่าค่าที่อยู่บนกราฟนี้คือค่าที่รันเสร็จในแต่ละ epoch แล้ว (y)
+
+## histogram/ layer1/ weights
+
+เราเริ่มด้วย truncated distribution
+
+สิ่งที่น่าสนใจก็คือตอนท้ายมันก็ยังคงเหมือนกับ truncate distribution อยู่
+
+สิ่งที่บอกได้เมื่อ biases มีการเปลี่ยนแปลงแต่ weight นั้นไม่มีการเปลี่ยนแปลงมีได้เพียงอย่างเดียวนั้นก็คือ การที่การเรียนรู้ของเราเกิดขึ้นที่ biases อย่างเดียว
+
+## histogram/ layer2/ biases, weights
+
+สิ่งที่น่าสนใจก็คือการที่ biases เปลี่ยนแปลงแบบรุนแรงมากๆ
+และเหมือนเดิมใน weight นั้นแทบไม่มีการเปลี่ยนแปลงเลย
+
+### histogram/ output/ biases, weights
+
+ถ้าลองสังเกตุ biases ดูก็จะพบว่ามันมีทังหมด 10 ค่า (10 ภูเขา)
+
+## distribution
+
+เป็นการดูการกระจายของข้อมูล ที่สีเข้มๆนั้นก็คือที่ median อยู่ ที่ขอบด้านบนนั้นก็คือค่า max ขอบข้างล่านั้นคือคือค่า min ตามปกติ
+
+distribution เนี่ยค่อยข้างออกไปเชิงสถิติ แต่ละเส้นบนกราฟบ่งชี้ถึง เปอร์เซ็นไท ต่างๆ
+
+## ลองทดลองเปลี่ยน hyperparameter
+
+เริ่มแรกเราตั้ง learning rate เอาไว้ที่ 0.0001 ก็จะมี accuracy แบบหนึ่ง
+
+แต่พอเราได้ทำการเปลี่ยน learning rate ไปเป็น 0.001 จะเห็นได้อย่างจัดเจนเลยว่า accuracy เราเพิ่มขึ้นไวมากในตอนแรก และตอนท้ายก็มีค่ามากกว่า learning rate ที่ 0.0001
+
+แต่ลองไปดูตอนท้าย validation_accuracy นั้นดูเหมือนว่าจะไม่ลดลงอีกและมีท่าทีกระตุกเพิ่มขึ้นด้วย
+
+ทำให้รู้ว่าปัญหาตอนนี้อาจจะเกิด overfitting เราอาจจะต้องทำ regulariztion หรือ drop out ก็เป็นได้
+
+ลองไปดูที่ weight เมื่อเทียบกันทั้งสองแบบ แบบที่ learning rate สูงกว่าจะมีการเกาะกลุ่มกันมากกว่าและค่าสูงมากเมื่อเทียบกับแบบเก่า
+
+ไปดูที่ output layer ต่อจะเห็นว่า leanring rate ที่ต่ำนั้นการเปลี่ยนแปลงส่วนมากมักจะเกิดที่ output layer ไม่ใช่เกิดที่ first, second hidden layer มาดูอันที่ learning rate สูงถ้าเรามองจาก overlay มุมมอง เราจะเห็นได้ว่า การเปลี่ยนแปลงก็มีแต่ไม่ dramatically แบบอันครั้งเก่า
+
+ย้อนกลับมาดูที่ biases ทั้งสองกรณีเลย bias มีการเปลี่ยนแปลงอย่างรุนแรงมาก แต่ก็เป็นตัวชี้วัดได้ดีว่า model ของเราเกิดการเรียนรู้ขึ้น
+
+## Overfitting Problem
+
+ถึงแม้ตอนนี้มันอาจจะไม่เกิดแต่ในอนาคตเราต้องได้พบเจอแน่นอน
+
+```python
+# model dropout
+layer_1 = setup_layer(X, weight_dim=[TOTAL_INPUTS, hidden_1_number],
+                     bias_dim=[hidden_1_number],
+                     name='layer_1')
+layer_dropout = tf.nn.dropout(layer_1, keep_prob=0.8, name='dropout_layer_1')  ######
+# then change the input layer to layer 2 is dropout layer instead
+layer_2 = setup_layer(layer_dropout, weight_dim=[hidden_1_number, hidden_2_number],
+                     bias_dim=[hidden_2_number],
+                     name='layer_2')
+output = setup_layer(layer_2, weight_dim=[hidden_2_number, NUMBER_CLASSES],
+                     bias_dim=[NUMBER_CLASSES],
+                     name='output')
+model_name = f'{hidden_1_number}-{hidden_2_number} LR;{learning_rate} E;{epoch_number}'
+```
+
+ก็การเพิ่ม dropout เข้าไปก็จะส่งผลคล้ายๆกับที่เราทำใน keras เช่นการเทรนช้าลงบ้าง ช่วยลด overfitting ได้
