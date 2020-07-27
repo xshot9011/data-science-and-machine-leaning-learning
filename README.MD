@@ -109,3 +109,19 @@ if you know many tools and use tools for the right jobs
 คือสถานที่ที่มีคนทำ model ไว้ให้เราแล้วเราแค่เอามันไปใช้งานต่อ เราไม่จำเป็นต้องทำการ train มันเอง
 
 [https://www.modelzoo.co/](model zoo)
+
+# at the end
+
+practice on [kaggle](https://www.kaggle.com/)
+
+One of the hardest parts will be finding the right data, so here are some of my favourite places to start looking: 
+
+[UK goverment data](https://data.gov.uk/search)
+
+[United States Census API](https://www.census.gov/data/developers/data-sets.html)
+
+[Curated datasets by Figure-Eight.com](https://appen.com/resources/datasets/)
+
+[List of Awesome Datasets](https://github.com/awesomedata/awesome-public-datasets)
+
+[20 Cool Datasets by Oliver Cameron](https://gist.github.com/olivercameron/482dcfe8f34d66b536b1048eefe8b40d#file-datasets-csv)
