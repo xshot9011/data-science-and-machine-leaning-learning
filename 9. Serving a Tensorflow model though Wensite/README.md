@@ -155,4 +155,76 @@ tensorflowjs_converter --input_format=tf_saved_model --output_format=tfjs_graph_
 พอรันคำสั่งเสร็จจะได้ไฟล์มา 2 ไฟล์ model.json กับไฟล์ weights 
 อีกไฟล์หนึ่งค่อนข้างจะอ่านยากเนื่องจากเป็น binary ไฟล์
 
-## coming
+## 3. Build out Website
+
+เนื่องจากผู้เขียมีความรู้เกี่ยวกับการเขียนเว็ปเบื้องต้นพอสมควรดังนั้นจะไม่ค่อยเขียนในนี้เยอะมากเท่าไหร
+
+ผู้เขียนได้รับการสอนมาอีกทีดังนั้น folder ที่เก็บ source code อยู่ใน 9. Serving a Tensorflow model though Wensite\math_garden_stub complete
+
+เปิด google chrome แล้วเปิด path index.html นั้นอยู่
+
+ใน css #[id] ref > html
+
+ตอนนี้ก็เอา ไฟล์ tensorflow.js ไปใส่ใน website เราก่อน
+
+[doc](https://www.tensorflow.org/js/tutorials/setup)
+
+มันติดตั้งได้สองวิธี เราจะทำวิธั script tag
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+
+เอาไปใส่ใน index.html
+
+```javascript
+async function loadModel() {
+    model = await tf.loadGraphModel('TFJS/model.json')
+}
+```
+
+สาเหตุที่เราใช้ async นั้นก็เพราะว่ามันต้องใช้เวลาในการโหลดก่อน แน่นอนยิ่งถ้า model ใหญ่ๆอะ
+
+หลายๆครั้งคงงงเอ๋แล้วมันจะเอา server ตัวไหนมาคอยรัน เพราะถ้าเราทำการ add ไปแค่ function ด้านบน ตัว html กับ js ไม่สามารถเข้าถึงเนื้อหาอื่นได้บน hdd นอกจาก index.html แน่นอน
+
+ด้วยความที่มันเป็น python มันมีแทบทุกอย่าง ก็จะมี module หนึ่งที่เราเอาไว้ใช้ในการ run server
+
+```bash
+cd [to index.html dir]
+python -m http.server 8000
+```
+
+## 4. Pre-Process Data
+
+บางครั้งเราก็ต้องทำการสเกลภาพ หรือหา center of mass ของภาพ ทั้งหมดนี้เพื่อเอาไปใช้ในการ predict
+
+ให้ data อยู่ใน form ที่เหมาะสม
+
+ทั้งหมดนี้มี tool ที่ใช้ในการช่วยเราทำงานเรียกว่า OpenCV 
+
+flow ในการทำงานก็จะเป็น 
+load image >> 
+convert to balck&white >> 
+find the contours >> 
+calculate bounding rec >> 
+crop the iamge >> 
+calculate the neew size >> 
+resize the image >> 
+add padding >> 
+find the centre of mass >> 
+shift the image >> 
+Normalise the Pixel Values (0-255) to (0-1) >>
+create a Tensor >>
+make prediction
+
+### Working with OpenCV
+
+ไปดาวโหลด opencv.js มาใส่ไว้ในโปรเจ็คเรา
+
+```js
+<script src='vendor/opencv.js'></script>
+```
+
+## 5. Predict Input
+
+## 5. Public Website
+
+สามารถใช้ github page ได้เพราะเป็น static website
