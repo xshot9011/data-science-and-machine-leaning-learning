@@ -1,6 +1,6 @@
 # introduction
 
-more on deep learning --> (click)[https://www.notion.so/Deep-Learning-6e79f494cbda4a6dae2db52cc15c91bd]
+more on deep learning --> [click](https://www.notion.so/Deep-Learning-6e79f494cbda4a6dae2db52cc15c91bd)
 
 ## what is maching learning 
 
