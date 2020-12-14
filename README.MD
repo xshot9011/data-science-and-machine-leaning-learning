@@ -1,5 +1,7 @@
 # introduction
 
+more on deep learning --> (click)[https://www.notion.so/Deep-Learning-6e79f494cbda4a6dae2db52cc15c91bd]
+
 ## what is maching learning 
 
 ย้อนกลับไปในอดีตคอมพิวเตอร์ถูกคิดค้นชึ้นจากความขี้เกียจของมนุษย์ แล้วก็พัฒนามาในรูปแบบต่าๆอยู่เรื่อยๆ
